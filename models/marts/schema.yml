@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: stg_transactions
+    description: "Cleaned transaction data with parsed condition category, condition score, foil status, and language. Filters invalid prices, quantities, and missing keys."
+
+  - name: int_transactions_enriched
+    description: "Enriched transactions with SKU (product_id + condition), residual (unit_price - market_price), log price, and price-to-market ratio."
+
+  - name: fct_transactions
+    description: "Transaction-level fact table. One row per order line. References dim_product via product_id."
+    columns:
+      - name: order_id
+        tests: [not_null]
+      - name: product_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_product')
+              field: product_id
+      - name: sku
+        tests: [not_null]
+      - name: quantity
+        tests: [not_null]
+      - name: unit_price
+        tests: [not_null]
+
+  - name: dim_product
+    description: "Product dimension. One row per unique product_id. Includes product name and game set."
+    columns:
+      - name: product_id
+        tests: [not_null, unique]
+
+  - name: mart_product_features
+    description: "Product-level analytical features: pricing stats, transaction frequency, condition/foil/language mix ratios, and market-price-as-forecast accuracy (MAE, RMSE, MAPE). Supports product-level pricing strategy and segmentation."
+    columns:
+      - name: product_id
+        tests: [not_null, unique]
+
+  - name: mart_sku_features
+    description: "SKU-level analytical features (SKU = product_id + condition). Includes log-price statistics and dual frequency metrics — frequency_all_days (sales over full window) vs frequency_trade_days (sales over only days with activity). Supports SKU-level pricing and liquidity analysis."
+    columns:
+      - name: sku
+        tests: [not_null, unique]
