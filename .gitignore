@@ -1,4 +1,15 @@
+venv/
+venv310/
+__pycache__/
+*.pyc
 
 target/
-dbt_packages/
 logs/
+dbt_packages/
+
+*.duckdb
+
+.DS_Store
+Thumbs.db
+
+seeds/merged_cards_data.csv
