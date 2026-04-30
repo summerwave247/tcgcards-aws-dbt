@@ -50,10 +50,10 @@ tables for pricing strategy analysis.
 ### `staging/stg_transactions`
 Cleaned transaction data:
 - `try_cast` numeric coercion (CSV loads numbers as VARCHAR)
-- Multi-format date parsing (`m/d/yy`, `m/d/yyyy`, ISO)
+- date standardization
 - `Condition` string parsed into 4 derived labels:
   - `foil_status` (Foil / Non-Foil)
-  - `condition_category` (Near Mint → Damaged → Unopened)
+  - `condition_category` (Near Mint → Damaged)
   - `condition_score` (1–6 ordinal)
   - `language` (11 languages)
 - Filters invalid prices, quantities, and missing keys
@@ -113,7 +113,7 @@ dbt test
 |----------|---------------|
 | Modeling | dbt-core 1.10 |
 | Storage  | DuckDB (local OLAP) |
-| Source   | TCGplayer marketplace transactions |
+| Source   | TCG cards marketplace transactions |
 | Companion pipeline | AWS S3 + Glue Data Catalog + Athena |
 
 ---
@@ -130,7 +130,7 @@ pip install dbt-duckdb
 #    Expected file: seeds/merged_cards_data.csv
 
 # 3. Build the warehouse
-dbt seed     # load CSV (~1–3 min for 60MB)
+dbt seed     # load CSV
 dbt run      # build all 6 models
 dbt test     # run 12 quality tests
 
@@ -138,9 +138,6 @@ dbt test     # run 12 quality tests
 dbt docs generate
 dbt docs serve
 ```
-
-Open <http://localhost:8080> and click the lineage graph icon (bottom-right) to 
-see the dependency DAG.
 
 ---
 
