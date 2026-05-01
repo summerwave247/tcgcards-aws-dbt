@@ -11,8 +11,7 @@ tables for pricing strategy analysis.
 ---
 
 ## 📊 Architecture
-<img width="1424" height="1159" alt="09_dbt_docs_lineage_overview" src="https://github.com/user-attachments/assets/60fa8fe4-e9f8-4685-981c-392e1268910e" />
-
+![dbt lineage](screenshots/09_dbt_docs_lineage_overview.png)
 
 ```
 ┌─────────────────────┐
@@ -108,6 +107,7 @@ dbt test
 ---
 
 ## 🛠 Tech Stack
+![S3 bucket structure](screenshots/01_s3_bucket_structure.png)
 
 | Layer    | Tool          |
 |----------|---------------|
@@ -138,6 +138,16 @@ dbt test     # run 12 quality tests
 dbt docs generate
 dbt docs serve
 ```
+## Example Outputs
+
+### AWS bucket layout
+![S3 bucket structure](screenshots/01_s3_bucket_structure.png)
+
+### Successful dbt build
+![dbt run success](screenshots/07_dbt_run_success.png)
+
+### SKU-level feature mart
+![mart_sku_features](screenshots/11_dbt_docs_mart_sku_features.png)
 
 ---
 
